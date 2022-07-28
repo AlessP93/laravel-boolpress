@@ -13,10 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Backoffice - Area pubblica
-Route::get('/', function () {
-    return view('welcome');
-});
+
 // Backoffice - Area pubblica - auth
 Auth::routes();
 
