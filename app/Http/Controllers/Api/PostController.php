@@ -15,10 +15,15 @@ class PostController extends Controller
 
         return response()->json($posts);
     }
-
+    // api/post/come creare un div
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->with(['category', 'tags', 'user'])->get()->first();
+
+        // caso 404
+        if ( empty($post) ) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
 
         return response()->json($post);
     }

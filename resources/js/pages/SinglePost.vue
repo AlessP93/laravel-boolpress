@@ -1,8 +1,9 @@
 <template>
-    <div class="container">
+    <div v-if="post" class="container">
         <h1>{{post.title}}</h1>
         <p>{{post.content}}</p>
-        <h4>{{post.user.name}}</h4>
+        <h4>Autore di questo post: {{post.user.name}}</h4>
+        <p v-if="post.category">Categoria: {{post.category.name}}</p>
     </div>
 </template>
 
