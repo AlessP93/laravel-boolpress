@@ -11,7 +11,7 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="title">Titolo</label>
+                            <label for="title">Titolo nuovo</label>
                             <input type="text" class="form-control  @error('title') is-invalid @enderror" id="title" name="title" {{old('title')}}>
                             @error('title')
                                 <div class="alert alert-danger">{{ $message }}</div>
