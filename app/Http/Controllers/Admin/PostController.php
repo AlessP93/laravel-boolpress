@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 use App\Post;
 use App\Category;
 use App\Tag;
@@ -12,6 +15,15 @@ use App\Tag;
 
 class PostController extends Controller
 {
+    // validazione
+    private $validation = [
+        'title' => 'required|string|max:255',
+        'content' => 'required|string|max:65535',
+        'published' => 'sometimes|accepted',
+        'category_id' => 'nullable|exists:categories,id',
+        'tags' => 'nullable|exists:tags,id',
+        'image' => 'nullable|image|max:500'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -47,21 +59,24 @@ class PostController extends Controller
     public function store(Request $request)
     {
          // validazione
-         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:65535',
-            'published' => 'sometimes|accepted',
-            'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'nullable|exists:tags,id',
-        ]);
+     
         // prendo i dati dalla request e creo il post
-        $data = $request->all();
+        $data = $request->validate($this->validation);
         $newPost = new Post();
         $newPost->fill($data);
 
         $newPost->slug = $this->getSlug($data['title']);
 
         $newPost->published = isset($data['published']); // true o false
+
+        // associo l'utente al post
+        $newPost->user_id = Auth::id();
+
+        // aggiungo l'immagine se è presente
+        if(isset($data['image'])) {
+            $newPost->image = Storage::put('uploads', $data['image']);
+        }
+        
         $newPost->save();
 
         // se ci sono dei tags associati, li associo al post appena creato
@@ -111,12 +126,7 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         // validazione
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:65535',
-            'published' => 'sometimes|accepted',
-            'category_id' => 'nullable|exists:categories,id'
-        ]);
+       
         // aggiornamento
         $data = $request->all();
         // se cambia il titolo genero un altro slug
