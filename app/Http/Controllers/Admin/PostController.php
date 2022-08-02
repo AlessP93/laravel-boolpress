@@ -15,14 +15,13 @@ use App\Tag;
 
 class PostController extends Controller
 {
-    // validazione
     private $validation = [
         'title' => 'required|string|max:255',
         'content' => 'required|string|max:65535',
         'published' => 'sometimes|accepted',
         'category_id' => 'nullable|exists:categories,id',
         'tags' => 'nullable|exists:tags,id',
-        'image' => 'nullable|image|max:500'
+        'image' => 'nullable|file|max:500'
     ];
     /**
      * Display a listing of the resource.
@@ -58,10 +57,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-         // validazione
      
         // prendo i dati dalla request e creo il post
+
         $data = $request->validate($this->validation);
+        dd($data);
         $newPost = new Post();
         $newPost->fill($data);
 
@@ -136,6 +136,14 @@ class PostController extends Controller
         $post->fill($data);
 
         $post->published = isset($data['published']); // true o false
+
+        if(isset($data['image'])) {
+            if($post->image) {
+                Storage::delete($post->image);
+            }
+
+            $post->image = Storage::put('uploads', $data['image']);
+        }
 
         $post->save();
 
