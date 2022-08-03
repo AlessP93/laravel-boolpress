@@ -2119,7 +2119,11 @@ __webpack_require__.r(__webpack_exports__);
   name: 'SinglePost',
   data: function data() {
     return {
-      post: null
+      post: null,
+      FormData: {
+        name: '',
+        content: ''
+      }
     };
   },
   created: function created() {
@@ -2134,6 +2138,11 @@ __webpack_require__.r(__webpack_exports__);
         name: 'page-404'
       });
     });
+  },
+  methods: {
+    addComment: function addComment() {
+      console.log(this.FormData);
+    }
   }
 });
 
@@ -2554,10 +2563,89 @@ var render = function render() {
       src: "/storage/".concat(_vm.post.image),
       alt: _vm.post.title
     }
-  }) : _vm._e(), _vm._v(" "), _c("p", [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c("h4", [_vm._v("Autore di questo post: " + _vm._s(_vm.post.user.name))]), _vm._v(" "), _vm.post.category ? _c("p", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e()]) : _vm._e();
+  }) : _vm._e(), _vm._v(" "), _c("p", [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c("h4", [_vm._v("Autore di questo post: " + _vm._s(_vm.post.user.name))]), _vm._v(" "), _vm.post.tags.length > 0 ? _c("div", [_c("h4", [_vm._v("Lista tags")]), _vm._v(" "), _c("ul", _vm._l(_vm.post.tags, function (tag) {
+    return _c("li", {
+      key: tag.id
+    }, [_c("router-link", {
+      attrs: {
+        to: {
+          name: "single-tag",
+          params: {
+            slug: tag.slug
+          }
+        }
+      }
+    }, [_vm._v(_vm._s(tag.name))])], 1);
+  }), 0)]) : _vm._e(), _vm._v(" "), _c("div", {
+    staticClass: "mt-3"
+  }, [_c("h3", [_vm._v("Lascia un commento")]), _vm._v(" "), _c("form", {
+    on: {
+      submit: function submit($event) {
+        $event.preventDefault();
+        return _vm.addComment();
+      }
+    }
+  }, [_c("div", {
+    staticClass: "mb-1"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.formData.name,
+      expression: "formData.name"
+    }],
+    attrs: {
+      type: "text",
+      name: "name",
+      placeholder: "Inserisci il nome"
+    },
+    domProps: {
+      value: _vm.formData.name
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+
+        _vm.$set(_vm.formData, "name", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _c("div", [_c("textarea", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.formData.content,
+      expression: "formData.content"
+    }],
+    attrs: {
+      name: "content",
+      id: "content",
+      cols: "30",
+      rows: "10",
+      placeholder: "Inserisci il testo del commento"
+    },
+    domProps: {
+      value: _vm.formData.content
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+
+        _vm.$set(_vm.formData, "content", $event.target.value);
+      }
+    }
+  })]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _vm.post.category ? _c("p", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e()]) : _vm._e();
 };
 
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+      _c = _vm._self._c;
+
+  return _c("div", [_c("button", {
+    attrs: {
+      type: "submit"
+    }
+  }, [_vm._v("Aggiungi Commento")])]);
+}];
 render._withStripped = true;
 
 
