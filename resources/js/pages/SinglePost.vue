@@ -11,7 +11,7 @@
         <div v-if="post.tags.length > 0">
             <h4>Lista tags</h4>
             <ul>
-                <li v-for="tag in post.tags" :key="tag.id"><router-link :to="{ name: 'single-tag', params: {slug: tag.slug} }">{{tag.name}}</router-link></li>
+                <li v-for="tag in post.tags" :key="tag.id"></li>
             </ul>
         </div>
         <!-- commento -->
@@ -74,7 +74,7 @@ export default {
             })
             .catch((error) => {
                 
-                this.error = error.response.data.errors;
+                this.errors = error.response.data.errors;
             });
         }
     }

@@ -2149,7 +2149,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.post("/api/comments/".concat(this.post.id), this.formData).then(function (resp) {
         console.log(resp);
       })["catch"](function (error) {
-        _this2.error = error.response.data.errors;
+        _this2.errors = error.response.data.errors;
       });
     }
   }
@@ -2575,16 +2575,7 @@ var render = function render() {
   }) : _vm._e(), _vm._v(" "), _c("p", [_vm._v(_vm._s(_vm.post.content))]), _vm._v(" "), _c("h4", [_vm._v("Autore di questo post: " + _vm._s(_vm.post.user.name))]), _vm._v(" "), _vm.post.tags.length > 0 ? _c("div", [_c("h4", [_vm._v("Lista tags")]), _vm._v(" "), _c("ul", _vm._l(_vm.post.tags, function (tag) {
     return _c("li", {
       key: tag.id
-    }, [_c("router-link", {
-      attrs: {
-        to: {
-          name: "single-tag",
-          params: {
-            slug: tag.slug
-          }
-        }
-      }
-    }, [_vm._v(_vm._s(tag.name))])], 1);
+    });
   }), 0)]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "mt-3"
   }, [_c("h3", [_vm._v("Lascia un commento")]), _vm._v(" "), _c("form", {
@@ -19828,10 +19819,6 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     path: "/categoria/:slug",
     name: "single-category",
     component: _pages_SingleCategory__WEBPACK_IMPORTED_MODULE_5__["default"]
-  }, {
-    path: "/chi-siamo",
-    name: "about",
-    component: _pages_About__WEBPACK_IMPORTED_MODULE_3__["default"]
   }, {
     path: "/posts/:slug",
     name: "single-post",

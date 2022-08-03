@@ -34,11 +34,6 @@ const router = new VueRouter({
             component: SingleCategory,
         },
         {
-            path: "/chi-siamo",
-            name: "about",
-            component: About,
-        },
-        {
             path: "/posts/:slug",
             name: "single-post",
             component: SinglePost,
