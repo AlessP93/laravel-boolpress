@@ -61,7 +61,7 @@ class PostController extends Controller
         // prendo i dati dalla request e creo il post
 
         $data = $request->validate($this->validation);
-        dd($data);
+        
         $newPost = new Post();
         $newPost->fill($data);
 
@@ -137,11 +137,14 @@ class PostController extends Controller
 
         $post->published = isset($data['published']); // true o false
 
+        // se abbiamo un img nuova
         if(isset($data['image'])) {
+            // e se ce gia un img
             if($post->image) {
+                // cancello l img gia caricata
                 Storage::delete($post->image);
             }
-
+            // aggiungo l img nuova
             $post->image = Storage::put('uploads', $data['image']);
         }
 
@@ -162,6 +165,14 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if($post->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        if($post->image) {
+            Storage::delete($post->image);
+        }
+
         $post->delete();
 
         return redirect()->route('admin.posts.index');

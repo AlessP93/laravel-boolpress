@@ -20,7 +20,7 @@
 
             @if($post->image)
             <div class="mb-3">
-                <img src="{{asset("storage/{$post->image}")}}" alt="">
+                <img width="100" src="{{asset("storage/{$post->image}")}}" alt="">
             </div>
             @endif
 
