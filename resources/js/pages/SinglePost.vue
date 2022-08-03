@@ -20,9 +20,15 @@
             <form @submit.prevent="addComment()">
                 <div class="mb-1">
                     <input type="text" name="name" placeholder="Inserisci il nome" v-model="formData.name">
+                     <ul v-if="errors.name" style="color:red">
+                        <li v-for="(err, index) in errors.name" :key="index">{{err}}</li>
+                    </ul>
                 </div>
                 <div>
                     <textarea name="content" id="content" cols="30" rows="10" placeholder="Inserisci il testo del commento" v-model="formData.content"></textarea>
+                    <ul v-if="errors.content" style="color:red">
+                        <li v-for="(err, index) in errors.content" :key="index">{{err}}</li>
+                    </ul>
                 </div>
                 <div>
                     <button type="submit">Aggiungi Commento</button>
@@ -40,10 +46,11 @@ export default {
     data() {
         return {
             post: null,
-            FormData: {
+            formData: {
                 name: '',
                 content: '',
-            }
+            },
+            errors: {}
         }
     },
     created() {
@@ -60,6 +67,15 @@ export default {
     methods: {
         addComment() {
             console.log(this.FormData);
+            // axios
+            axios.post(`/api/comments/${this.post.id}`, this.formData)
+            .then((resp) => {
+                console.log(resp);
+            })
+            .catch((error) => {
+                
+                this.error = error.response.data.errors;
+            });
         }
     }
 }

@@ -2120,10 +2120,11 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       post: null,
-      FormData: {
+      formData: {
         name: '',
         content: ''
-      }
+      },
+      errors: {}
     };
   },
   created: function created() {
@@ -2141,7 +2142,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addComment: function addComment() {
-      console.log(this.FormData);
+      var _this2 = this;
+
+      console.log(this.FormData); // axios
+
+      axios.post("/api/comments/".concat(this.post.id), this.formData).then(function (resp) {
+        console.log(resp);
+      })["catch"](function (error) {
+        _this2.error = error.response.data.errors;
+      });
     }
   }
 });
@@ -2609,7 +2618,15 @@ var render = function render() {
         _vm.$set(_vm.formData, "name", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _c("div", [_c("textarea", {
+  }), _vm._v(" "), _vm.errors.name ? _c("ul", {
+    staticStyle: {
+      color: "red"
+    }
+  }, _vm._l(_vm.errors.name, function (err, index) {
+    return _c("li", {
+      key: index
+    }, [_vm._v(_vm._s(err))]);
+  }), 0) : _vm._e()]), _vm._v(" "), _c("div", [_c("textarea", {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -2633,7 +2650,15 @@ var render = function render() {
         _vm.$set(_vm.formData, "content", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _vm.post.category ? _c("p", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e()]) : _vm._e();
+  }), _vm._v(" "), _vm.errors.content ? _c("ul", {
+    staticStyle: {
+      color: "red"
+    }
+  }, _vm._l(_vm.errors.content, function (err, index) {
+    return _c("li", {
+      key: index
+    }, [_vm._v(_vm._s(err))]);
+  }), 0) : _vm._e()]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _vm.post.category ? _c("p", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e()]) : _vm._e();
 };
 
 var staticRenderFns = [function () {
