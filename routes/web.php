@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 // Backoffice - Area pubblica - auth
 Auth::routes();
 
@@ -26,7 +25,11 @@ Route::middleware('auth')
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('posts', 'PostController');
     Route::resource('categories', 'CategoryController');
-    Route::resource('tags', 'tagController');
+    Route::resource('tags', 'TagController');
+
+    Route::get('comments', 'CommentController@index')->name('comments.index');
+    // Route::patch('comments/{comment}', 'CommentController@update')->name('comments.update');
+    // Route::delete('comments/{comment}', 'CommentController@destroy')->name('comments.destroy');
 });
 
 // Front office

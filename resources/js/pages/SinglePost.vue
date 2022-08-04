@@ -26,12 +26,15 @@
                 </div>
                 <div>
                     <textarea name="content" id="content" cols="30" rows="10" placeholder="Inserisci il testo del commento" v-model="formData.content"></textarea>
-                    <ul v-if="errors.content" style="color:red">
+                    <ul v-if="errors.content" style="color: red">
                         <li v-for="(err, index) in errors.content" :key="index">{{err}}</li>
                     </ul>
                 </div>
                 <div>
                     <button type="submit">Aggiungi Commento</button>
+                </div>
+                <div v-if="commentSent" class="mt-2" style="color: green; border: 1px solid green; ">
+                    Commento inserito in fase di approvazione
                 </div>
             </form>
         </div>
@@ -50,6 +53,7 @@ export default {
                 name: '',
                 content: '',
             },
+            commentSent: false,
             errors: {}
         }
     },
@@ -70,7 +74,10 @@ export default {
             // axios
             axios.post(`/api/comments/${this.post.id}`, this.formData)
             .then((resp) => {
-                console.log(resp);
+                this.commentSent = true;
+                this.FormData.name = "";
+                this.FormData.content = "";
+
             })
             .catch((error) => {
                 

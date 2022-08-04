@@ -2124,6 +2124,7 @@ __webpack_require__.r(__webpack_exports__);
         name: '',
         content: ''
       },
+      commentSent: false,
       errors: {}
     };
   },
@@ -2147,7 +2148,9 @@ __webpack_require__.r(__webpack_exports__);
       console.log(this.FormData); // axios
 
       axios.post("/api/comments/".concat(this.post.id), this.formData).then(function (resp) {
-        console.log(resp);
+        _this2.commentSent = true;
+        _this2.FormData.name = "";
+        _this2.FormData.content = "";
       })["catch"](function (error) {
         _this2.errors = error.response.data.errors;
       });
@@ -2649,7 +2652,13 @@ var render = function render() {
     return _c("li", {
       key: index
     }, [_vm._v(_vm._s(err))]);
-  }), 0) : _vm._e()]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _vm.post.category ? _c("p", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e()]) : _vm._e();
+  }), 0) : _vm._e()]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm.commentSent ? _c("div", {
+    staticClass: "mt-2",
+    staticStyle: {
+      color: "green",
+      border: "1px solid green"
+    }
+  }, [_vm._v("\n                Commento inserito in fase di approvazione\n            ")]) : _vm._e()])]), _vm._v(" "), _vm.post.category ? _c("p", [_vm._v("Categoria: " + _vm._s(_vm.post.category.name))]) : _vm._e()]) : _vm._e();
 };
 
 var staticRenderFns = [function () {
